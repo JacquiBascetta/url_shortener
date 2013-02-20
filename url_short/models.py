@@ -14,3 +14,5 @@ class ShortLink(models.Model):
 
     def __unicode__(self):
         return self.original_url + ", " + self.mini_url
+
+#just trying to get the code to commit and show up on github
