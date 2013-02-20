@@ -16,3 +16,4 @@ class ShortLink(models.Model):
         return self.original_url + ", " + self.mini_url
 
 #just trying to get the code to commit and show up on github
+#i really hate github
