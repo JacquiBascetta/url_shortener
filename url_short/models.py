@@ -4,8 +4,8 @@ from django import forms
 
 
 class ShortLink(models.Model):
-    original_url = models.URLField(verify_exists - True, unique = True)
-    mini_url = models.CharField(max_length=20, primary_key=True, unique = True)
+    original_url = models.URLField(verify_exists=True, unique=True)
+    mini_url = models.CharField(max_length=20, primary_key=True, unique=True)
 
     def __init__(self, *args, **kwargs):
         """
@@ -23,10 +23,8 @@ class ShortLink(models.Model):
     def __unicode__(self):
         return self.original_url + ", " + self.mini_url
 
+
 class LinkForm(forms.Form):
-    u = forms.URLField(verify_exists = True,
-                       label = 'What URL would you like to shorten?',
+    u = forms.URLField(verify_exists=True,
+                       label='What URL would you like to shorten?',
                        )
-
-
-
