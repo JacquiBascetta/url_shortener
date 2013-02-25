@@ -4,16 +4,11 @@ import random
 
 class ShortLink(models.Model):
     original_url = models.CharField(max_length=2048)
-    mini_url = models.CharField(max_length=20, primary_key=True)
+    #mini_url = models.CharField(max_length=20, primary_key=True)
 
     def randomize(self):
         chars = ''.join(random.sample("abcdefghijklmnopqrstuvwxyz1234567890", 7))
         return chars
 
-    mini_url = randomize
-
     def __unicode__(self):
-        return self.original_url + ", " + self.mini_url
-
-#just trying to get the code to commit and show up on github
-#i really hate github
+        return self.original_url #+ ", " + self.mini_url
