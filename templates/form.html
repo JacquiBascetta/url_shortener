@@ -4,9 +4,11 @@
     <title>Shorten your URLs!</title>
 </head>
 <body>
-<form>
-    <label id="original url?">url</label>
-    <input type="url" name="url" value="" id=""url" />
+What URL would you like to shorten?
+<form action="/thanks/" method="post">{% csrf_token %}
+    <input type="url" value="Submit" />
 </form>
 </body>
 </html>
+
+
