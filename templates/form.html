@@ -3,10 +3,12 @@
 <head>
     <title>Shorten your URLs!</title>
 </head>
-<body>
-<form action="." name="form" method="post">{% csrf_token %}
+<body> Please enter the URL you would to shorten:
+<form action="." name="form" method="post">
+    {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
+
 </form>
 </body>
 </html>
