@@ -4,9 +4,9 @@
     <title>Shorten your URLs!</title>
 </head>
 <body>
-What URL would you like to shorten?
-<form action="/thanks/" method="post">{% csrf_token %}
-    <input type="url" value="Submit" />
+<form action="." name="form" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
 </form>
 </body>
 </html>

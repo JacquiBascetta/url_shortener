@@ -1,37 +1,37 @@
 from django.shortcuts import render_to_response
-from url_short.form import ShortLinkForm
-from url_short.models import ShortLink
-from django.http import HttpResponseRedirect
+from url_short.models import ShortLinkForm, ShortLink
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.template import RequestContext
-
+from url_short.models import randomize
+from urlparse import urlparse
 
 def find_origurl(request):
-    success = False
-
-    if request.method == 'POST': #if a form has been submitted
-        link_form = ShortLinkForm(request.POST)
-        print link_form['original_URL']
-
-        if link_form.is_valid():
-            Success = True
-
-            original_URL = link_form.cleaned_data['original_URL']
-
-            orig_url = ShortLink(original_URL=original_URL)
-            orig_url.save()
-
-            orig_url_form = ShortLinkForm()
-
-            return HttpResponseRedirect('/thanks/', thanks.html) #filled out properly, redirects
+    if request.method == "POST": #if a form has been submitted
+        f = ShortLinkForm(request.POST)
+        if f.is_valid():
+            origURL=(f.cleaned_data['original_URL'])
+            parsed = urlparse(origURL)
+            if parsed.scheme == '':
+                origURL = 'http://' + origURL
+            try:
+                this = ShortLink.objects.get(original_URL=origURL)
+                mini_path = str(this.mini_URL)
+            except ShortLink.DoesNotExist:
+                mini_path = randomize()
+                instance = ShortLink(original_URL=origURL, mini_URL = mini_path)
+                instance.save()
+            return HttpResponse('Your new URL is: parvus.me/' + mini_path)
     else:
+        f = ShortLinkForm() #gives unbound form
 
-        form = ShortLinkForm() #gives unbound form
-        #this commented section is just to test function return HttpResponseRedirect('http://www.google.com')
+    return render_to_response('form.html', {'form': f}, context_instance=RequestContext(request))
 
-    return render_to_response('form.html', {
-        'form': ShortLinkForm(),
-    }, context_instance=RequestContext(request))
-
-
-def thanks(request):
-    return render_to_response('thanks.html')
+def redirect_mini(request):
+    if request.method == "GET":
+        mini_path = request.path_info[1:]
+        site = ShortLink.objects.get(mini_URL=mini_path)
+    try:
+        site = ShortLink.objects.get(mini_URL=mini_path)
+        return HttpResponseRedirect(site.original_URL)
+    except ShortLink.DoesNotExist:
+        raise Http404
