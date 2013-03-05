@@ -18,9 +18,10 @@ def find_origurl(request):
                 mini_path = str(this.mini_URL)
             except ShortLink.DoesNotExist:
                 mini_path = randomize()
-                instance = ShortLink(original_URL=origURL, mini_URL = mini_path)
+                instance = ShortLink(original_URL=origURL, mini_URL=mini_path)
                 instance.save()
-            return HttpResponse('Your new URL is: parvus.me/' + mini_path)
+            html = "<html><body>Your new URL is: <a href= %s> %s </a></body></html>" % (mini_path, 'parvus.me/' + mini_path)
+            return HttpResponse(html)
     else:
         f = ShortLinkForm() #gives unbound form
 
@@ -29,9 +30,8 @@ def find_origurl(request):
 def redirect_mini(request):
     if request.method == "GET":
         mini_path = request.path_info[1:]
-        site = ShortLink.objects.get(mini_URL=mini_path)
     try:
         site = ShortLink.objects.get(mini_URL=mini_path)
         return HttpResponseRedirect(site.original_URL)
     except ShortLink.DoesNotExist:
-        raise Http404
+        return render_to_response('404.html')
