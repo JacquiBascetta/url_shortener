@@ -20,8 +20,7 @@ def find_origurl(request):
                 mini_path = randomize()
                 instance = ShortLink(original_URL=origURL, mini_URL=mini_path)
                 instance.save()
-            html = '<html><body bgcolor="#000000" TEXT="41A317"><p align= "center"> Your new URL is: <a href= %s> %s </p></H1></body></html>' % (mini_path, 'parvus.me/' + mini_path)
-            return HttpResponse(html)
+            return render_to_response('minireturn.html', {'mini': mini_path})
     else:
         f = ShortLinkForm() #gives unbound form
 
