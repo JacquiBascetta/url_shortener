@@ -3,13 +3,13 @@
 <head>
     <title>Shorten your URLs!</title>
 </head>
-<body> Please enter the URL you would to shorten:
+<body bgcolor="#000000"> <H1 align="center"><font color= "41A317">Please enter the URL you would to shorten:</font>
 <form action="." name="form" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />
 
-</form>
+</form></H1>
 </body>
 </html>
 
